@@ -1,0 +1,37 @@
+name: Sunum Demosu - Matriks Test
+
+# Bu akış, depoya her 'push' yapıldığında (kod gönderildiğinde) çalışır.
+on: [push]
+
+jobs:
+  coklu-ortam-testi:
+    # Bu isim Actions ekranında görünecek
+    name: Test 🧪 ${{ matrix.os }} - ${{ matrix.browser }}
+    
+    # Matriks yapısı sayesinde işletim sistemi dinamik değişir
+    runs-on: ${{ matrix.os }}
+    
+    strategy:
+      fail-fast: false # Demo yaparken biri hata verirse diğerleri durmasın, hepsi görünsün.
+      matrix:
+        # İŞTE SİHİR BURADA:
+        # 3 İşletim Sistemi x 3 Tarayıcı = 9 Paralel Görev
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        browser: [Chrome, Firefox, Safari]
+
+    steps:
+    - name: Hazırlık Yapılıyor...
+      run: echo "Sanal makine başlatıldı. İşletim sistemi hazırlanıyor."
+
+    - name: Tarayıcı Testi Simülasyonu
+      shell: bash
+      run: |
+        echo "-------------------------------------------"
+        echo "Şu an çalışan İşletim Sistemi: ${{ matrix.os }}"
+        echo "Test edilen Tarayıcı: ${{ matrix.browser }}"
+        echo "-------------------------------------------"
+        echo "Testler başlatılıyor..."
+        # Burada gerçek test varmış gibi sistemi 10 saniye bekletiyoruz
+        # Böylece sunum sırasında herkes dönen çarkları görebilecek.
+        sleep 10 
+        echo "Test Tamamlandı! ✅"
